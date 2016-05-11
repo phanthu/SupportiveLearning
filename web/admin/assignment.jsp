@@ -162,6 +162,7 @@
                                             <th>Start</th>
                                             <th>End</th>
                                             <th>Url</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -175,6 +176,7 @@
                                                 <td>${assignment.startTime}</td>
                                                 <td>${assignment.endTime}</td>
                                                 <td>${assignment.url}</td>
+                                                <td>${assignment.status}</td>
                                                 <td>
                                                     <button class="btn btn-primary btn-sm" assignment_id="${assignment.assignmentId}" data-toggle="modal" target="edit" data-target="#editAssignment">Edit</button>
                                                     <button class="btn btn-danger btn-sm" assignment_id="${assignment.assignmentId}" data-toggle="modal" target="delete" data-target="#deleteAssignment">Delete</button>
