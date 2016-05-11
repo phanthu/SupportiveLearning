@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Collapsible Bootstrap Panels</title>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<style>
+body {
+  font-family: 'Open Sans', sans-serif;
+  padding: 2% 5%;
+  background: #323232;
+}
+
+h2 {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  padding: 0 0 10px;
+  color: #f0f0f0;
+  font-weight: 300;
+  text-align: center;
+}
+
+.btn { margin-left: 4px; }
+</style>
+</head>
+
+<body>
+<h2>Collapsible Bootstrap Panels</h2>
+<div class="jquery-script-ads" align="center"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title"> Panel Widget Primary
+          <div class="pull-right"> <a href="#" data-perform="panel-dismiss" class="btn btn-primary btn-xs pull-right"><i class="fa fa-times"></i></a> <a href="#" data-perform="panel-collapse" class="btn btn-primary btn-xs pull-right"><i class="fa fa-minus"></i></a> </div>
+        </h4>
+      </div>
+      <div class="panel-wrapper collapse in">
+        <div class="panel-body"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h4 class="panel-title"> Panel Widget Success
+          <div class="pull-right"> <a href="#" data-perform="panel-dismiss" class="btn btn-success btn-xs pull-right"><i class="fa fa-times"></i></a> <a href="#" data-perform="panel-collapse" class="btn btn-success btn-xs pull-right"><i class="fa fa-minus"></i></a> </div>
+        </h4>
+      </div>
+      <div class="panel-wrapper collapse in">
+        <div class="panel-body"> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur mollit anim id adipisicing elit. </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h4 class="panel-title"> Panel Widget Danger
+          <div class="pull-right"> <a href="#" data-perform="panel-dismiss" class="btn btn-danger btn-xs pull-right"><i class="fa fa-times"></i></a> <a href="#" data-perform="panel-collapse" class="btn btn-danger btn-xs pull-right"><i class="fa fa-minus"></i></a> </div>
+        </h4>
+      </div>
+      <div class="panel-wrapper collapse in">
+        <div class="panel-body"> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem fugiat nulla pariatur mollit anim id. </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title"> Panel Widget Info
+          <div class="pull-right"> <a href="#" data-perform="panel-dismiss" class="btn btn-info btn-xs pull-right"><i class="fa fa-times"></i></a> <a href="#" data-perform="panel-collapse" class="btn btn-info btn-xs pull-right"><i class="fa fa-minus"></i></a> </div>
+        </h4>
+      </div>
+      <div class="panel-wrapper collapse in">
+        <div class="panel-body"> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat perspiciatis unde omnis iste natus error. </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h4 class="panel-title"> Collapsed Panel Widget Warning
+          <div class="pull-right"> <a href="#" data-perform="panel-dismiss" class="btn btn-warning btn-xs pull-right"><i class="fa fa-times"></i></a> <a href="#" data-perform="panel-collapse" class="btn btn-warning btn-xs pull-right"><i class="fa fa-plus"></i></a> </div>
+        </h4>
+      </div>
+      <div class="panel-wrapper collapse">
+        <div class="panel-body"> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-inverse">
+      <div class="panel-heading">
+        <h4 class="panel-title"> Collapsed Panel Widget Danger
+          <div class="pull-right"> <a href="#" data-perform="panel-dismiss" class="btn btn-inverse btn-xs pull-right"><i class="fa fa-times"></i></a> <a href="#" data-perform="panel-collapse"  class="btn btn-inverse btn-xs pull-right"><i class="fa fa-plus"></i></a> </div>
+        </h4>
+      </div>
+      <div class="panel-wrapper collapse">
+        <div class="panel-body"> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni. </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
+<script>
+$(document).ready(function() {
+
+	/** ******************************
+	 * Collapse Panels
+	 * [data-perform="panel-collapse"]
+	 ****************************** **/
+	(function($, window, document){
+		var panelSelector = '[data-perform="panel-collapse"]';
+
+		$(panelSelector).each(function() {
+			var $this = $(this),
+			parent = $this.closest('.panel'),
+			wrapper = parent.find('.panel-wrapper'),
+			collapseOpts = {toggle: false};
+
+			if( ! wrapper.length) {
+				wrapper =
+				parent.children('.panel-heading').nextAll()
+				.wrapAll('<div/>')
+				.parent()
+				.addClass('panel-wrapper');
+				collapseOpts = {};
+			}
+			wrapper
+			.collapse(collapseOpts)
+			.on('hide.bs.collapse', function() {
+				$this.children('i').removeClass('fa-minus').addClass('fa-plus');
+			})
+			.on('show.bs.collapse', function() {
+				$this.children('i').removeClass('fa-plus').addClass('fa-minus');
+			});
+		});
+		$(document).on('click', panelSelector, function (e) {
+			e.preventDefault();
+			var parent = $(this).closest('.panel');
+			var wrapper = parent.find('.panel-wrapper');
+			wrapper.collapse('toggle');
+		});
+	}(jQuery, window, document));
+  
+  /** ******************************
+	 * Remove Panels
+	 * [data-perform="panel-dismiss"]
+	 ****************************** **/
+	(function($, window, document){
+		var panelSelector = '[data-perform="panel-dismiss"]';
+		$(document).on('click', panelSelector, function (e) {
+			e.preventDefault();
+			var parent = $(this).closest('.panel');
+			removeElement();
+
+			function removeElement() {
+				var col = parent.parent();
+				parent.remove();
+				col.filter(function() {
+					var el = $(this);
+					return (el.is('[class*="col-"]') && el.children('*').length === 0);
+				}).remove();
+			}
+		});
+	}(jQuery, window, document));
+  
+});
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</body>
+</html>
