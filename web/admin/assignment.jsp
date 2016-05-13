@@ -16,7 +16,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Assighment</title>
+        <title>Assignment</title>
 
         <c:set var="resources" value="${pageContext.servletContext.contextPath}/resources" />
         <c:set var="context" value="${pageContext.servletContext.contextPath}" />
@@ -146,7 +146,7 @@
                                 <br>
                                 <button class="btn btn-success" type="submit" name="action" id="search" value="search">Search</button>
                                 <a href="AssignmentController?action=tableassignment" class="btn btn-default">Clear search</a>
-                                <button type="button" name="action" class="btn btn-primary" id="create" data-toggle="modal" data-target="#createModal">Create new assignment</button>
+                                <button type="button" name="action" class="btn btn-primary" id="create" data-toggle="modal" data-target="#createAssignment" target="create">Create new assignment</button>
                             </div>
                         </form>
                         <div>
@@ -268,11 +268,11 @@
                                                         console.log(xhr.responseText);
                                                     },
                                                     success: function (data) {
-                                                        if ($('#modal').length) {
-                                                            $('#modal').remove();
+                                                        if ($('#editAssignment').length) {
+                                                            $('#editAssignment').remove();
                                                         }
-                                                        if ($('#myConfirm').length) {
-                                                            $('#myConfirm').remove();
+                                                        if ($('#deleteAssignment').length) {
+                                                            $('#deleteAssignment').remove();
                                                         }
                                                         $('body').prepend(data);
                                                         var modal = $(dataTarget);
@@ -294,8 +294,11 @@
                                                         showMessage("Error", "Ajax error", "danger");
                                                     },
                                                     success: function (data) {
+                                                        if($('createAssignment').length){
+                                                            $('#createAssignment').remove();
+                                                        }
                                                         $('body').prepend(data);
-                                                        $('#createModal').modal('show');
+                                                        $('#createAssignment').modal('show');
                                                     }
                                                 });
                                             }

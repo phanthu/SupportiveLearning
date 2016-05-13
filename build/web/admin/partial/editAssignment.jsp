@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="editBatch">
+<div class="modal fade" tabindex="-1" role="dialog" id="editAssignment">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveB">Save Batch</button>
+                    <button type="button" class="btn btn-primary" id="saveAsm">Save Batch</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->

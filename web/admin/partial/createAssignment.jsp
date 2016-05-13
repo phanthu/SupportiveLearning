@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="createBatch">
+<div class="modal fade" tabindex="-1" role="dialog" id="createAssignment">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>

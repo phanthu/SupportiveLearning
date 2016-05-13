@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="deleteBatch">
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteAssignment">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>

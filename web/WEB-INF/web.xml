@@ -48,8 +48,8 @@
         <servlet-class>com.apt.ajax.controller.AjaxUpload</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AssginmentAjaxController</servlet-name>
-        <servlet-class>com.apt.ajax.controller.AssginmentAjaxController</servlet-class>
+        <servlet-name>AssignmentAjaxController</servlet-name>
+        <servlet-class>com.apt.ajax.controller.AssignmentAjaxController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>jsp</servlet-name>
@@ -129,8 +129,8 @@
         <url-pattern>/AjaxUpload</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AssginmentAjaxController</servlet-name>
-        <url-pattern>/AssginmentAjaxController</url-pattern>
+        <servlet-name>AssignmentAjaxController</servlet-name>
+        <url-pattern>/AssignmentAjaxController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
