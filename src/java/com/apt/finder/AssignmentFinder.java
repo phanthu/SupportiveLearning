@@ -5,6 +5,8 @@
  */
 package com.apt.finder;
 
+import com.apt.entity.Batch;
+import com.apt.entity.Subject;
 import java.util.Date;
 
 /**
@@ -17,8 +19,8 @@ public class AssignmentFinder extends AbstractFinder{
     private String assignmentName;
     private Date starttime;
     private Date endtime;
-    private String batch;
-    private String subject;
+    private Batch batch;
+    private Subject subject;
     private Byte status;
 
     public Integer getAssignmentId() {
@@ -55,21 +57,23 @@ public class AssignmentFinder extends AbstractFinder{
         this.endtime = endtime;
     }
 
-    public String getBatch() {
+    public Batch getBatch() {
         return batch;
     }
 
-    public void setBatch(String batch) {
+    public void setBatch(Batch batch) {
         this.batch = batch;
     }
 
-    public String getSubject() {
+    public Subject getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(Subject subject) {
         this.subject = subject;
     }
+
+
 
     public AssignmentFinder() {
     }

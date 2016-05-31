@@ -22,10 +22,11 @@
                     </div>
                     <div class="form-group">
                         <label for="batch">Batch</label>
-                        <select name="batch" class="form-control" id="batch">
-                            <option value="0" selected> None </option>
+                        <select name="ebatch" class="form-control combobox" id="ebatch">
+                            <option value="" selected="selected">Chose a batch</option>
+                            <option value="0" selected="selected"> None </option>
                             <c:forEach var="batch" items="${requestScope.lstb}">
-                                <option  value="${batch.batchId}" > ${batch.batchName} </option>
+                                <option  value="${batch.batchId}" ${student.batch.batchId eq batch.batchId ? 'selected' : ''}> ${batch.batchName} </option>
                             </c:forEach>
                         </select>
                     </div>
@@ -38,3 +39,9 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<script type="text/javascript">
+            $(document).ready(function () {
+                $('#ebatch').combobox();
+            });
+
+        </script>

@@ -30,6 +30,7 @@
 
         <!-- Custom Fonts -->
         <link href="${resources}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="${context}/template/plugins/bootstrap-combobox-master/css/bootstrap-combobox.css" rel="stylesheet" type="text/css"/>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -92,8 +93,14 @@
                                     <br>
                                 </div>
                                 <div>
-                                    <label for="inputBatchName">Batch name</label>
-                                    <input maxlength="50" type="text" class="form-control" placeholder="Enter Batch name..." name="batch" id="inputBatchtName">
+                                    <label for="inputBatchName">Batch</label>
+                                    <select maxlength="50" type="text" class="form-control combobox" placeholder="Enter Batch name..." name="batch" id="inputBatchtName">
+                                        <option value="" selected="selected">Chose a batch</option>
+                                        <c:forEach var="batchx" items="${requestScope.lstb}">
+                                            <option value="${batchx.batchId}">${batchx.batchName}</option>
+                                        </c:forEach>
+
+                                    </select>
                                     <br>
                                 </div>
                                 <button class="btn btn-success" type="submit" name="action" id="search" value="Student">Search Student</button>
@@ -172,7 +179,14 @@
 
         <script src="${resources}/js/myutil.js" type="text/javascript"></script>
         <script src="${resources}/js/validate.js" type="text/javascript"></script>
+        <script src="${context}/template/plugins/bootstrap-combobox-master/js/bootstrap-combobox.js" type="text/javascript"></script>
         <!-- Morris Charts JavaScript -->
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.combobox').combobox();
+            });
+
+        </script>
         <script>
             $(document).on('click', '#createStu', function (e) {
                 e.preventDefault();
@@ -180,8 +194,8 @@
                     var obj = {
                         action: 'createstudent',
                         studentname: $('#studentName').val().trim(),
-                        studentpass:$('#studentPass').val().trim(),
-                        batch:$('#batch').val().trim()
+                        studentpass: $('#studentPass').val().trim(),
+                        batch: $('#cbatch').val().trim()
                     };
                     $.ajax({
                         url: "${context}/StudentAjaxController",
@@ -272,8 +286,8 @@
                         action: 'savestudent',
                         studentId: $('#estudentId').val().trim(),
                         studentName: $('#estudentName').val().trim(),
-                        password:$('#estudentPass').val().trim(),
-                        batch:$('#batch').val().trim()
+                        password: $('#estudentPass').val().trim(),
+                        batch: $('#ebatch').val().trim()
                     };
                     $.ajax({
                         url: "${context}/StudentAjaxController",
@@ -326,5 +340,6 @@
                 });
             });
         </script>
+
     </body>
 </html>

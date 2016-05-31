@@ -102,3 +102,12 @@ function checkeditStudent(){
     var flag=true;
     return flag;
 }
+function checkCreateAssignment(){
+    var flag=true;
+    return flag;
+}
+
+function checkEditAssignment(){
+    var flag = true;
+    return flag;
+}

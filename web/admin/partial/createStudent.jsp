@@ -18,9 +18,10 @@
                         <input type="text" class="form-control" id="studentPass" name="studentPass" placeholder="Password" maxlength="32" required>
                     </div>
                     <div class="form-group">
-                        <label for="batch">Batch</label>
-                        <select name="batch" class="form-control" id="batch">
-                            <option value="0" class="form-control" selected>None</option>
+                        <label for="cbatch">Batch</label>
+                        <select name="cbatch" class="form-control combobox" id="cbatch">
+                            <option value="" selected="selected">Chose a batch</option>
+                            <option value="0" class="form-control" selected="selected">None</option>
                             <c:forEach var="batch" items="${requestScope.lstb}">
                                 <option  value="${batch.batchId}">${batch.batchName}</option>
                             </c:forEach>
@@ -35,3 +36,9 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#cbatch').combobox();
+    });
+
+</script>

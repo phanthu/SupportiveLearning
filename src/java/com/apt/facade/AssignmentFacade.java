@@ -329,10 +329,10 @@ public class AssignmentFacade {
                 crit.add(Restrictions.and(Restrictions.ilike("assignmentName", "%" + finder.getAssignmentName() + "%")));
             }
             if (finder.getBatch() != null) {
-                crit.createAlias("batch", "a");
-                Integer i=myUtils.tryParseInt(finder.getBatch());
-                Criterion rest = Restrictions.or(Restrictions.eq("a.batchId", i), Restrictions.ilike("a.batchName", "%"+finder.getBatch()+"%"));
-                crit.add(Restrictions.and(rest));
+                crit.add(Restrictions.and(Restrictions.eq("batch", finder.getBatch())));
+            }
+            if(finder.getSubject()!=null){
+                crit.add(Restrictions.and(Restrictions.eq("subject", finder.getSubject())));
             }
             crit.setFirstResult((page - 1) * recordPerPage);
             crit.setMaxResults(recordPerPage);
@@ -373,10 +373,10 @@ public class AssignmentFacade {
                 crit.add(Restrictions.and(Restrictions.ilike("assignmentName", "%" + finder.getAssignmentName() + "%")));
             }
             if (finder.getBatch() != null) {
-                crit.createAlias("batch", "a");
-                Integer i=myUtils.tryParseInt(finder.getBatch());
-                Criterion rest = Restrictions.or(Restrictions.eq("a.batchId", i), Restrictions.ilike("a.batchName", "%"+finder.getBatch()+"%"));
-                crit.add(Restrictions.and(rest));
+                crit.add(Restrictions.and(Restrictions.eq("batch", finder.getBatch())));
+            }
+            if(finder.getSubject()!=null){
+                crit.add(Restrictions.and(Restrictions.eq("subject", finder.getSubject())));
             }
 
             lst = crit.list();

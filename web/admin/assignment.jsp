@@ -24,15 +24,14 @@
 
         <!-- Bootstrap Core CSS -->
         <link href="${resources}/css/bootstrap.min.css" rel="stylesheet">
-        <link href="${resources}/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
-        <link href="${resources}/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
-        <link href="${resources}/css/bootstrap-datetimepicker-standalone.css" rel="stylesheet" type="text/css"/>
 
         <!-- Custom CSS -->
         <link href="${resources}/css/sb-admin.css" rel="stylesheet">
 
         <!-- Custom Fonts -->
         <link href="${resources}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="${context}/template/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+        <link href="${context}/template/plugins/bootstrap-combobox-master/css/bootstrap-combobox.css" rel="stylesheet" type="text/css"/>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -82,16 +81,28 @@
 
                     <div class="row">
                         <h2>Search Assignment</h2>
-                        <form action="${context}/AssignmentController" method="POST">
+                        <form action="${context}/AssignmentController?action=Assignment" method="POST" id="assignmentform">
                             <div>
                                 <div>
-                                    <label for="inputBatchId">Batch ID</label>
-                                    <input maxlength="10" type="number" class="form-control" placeholder="Enter Batch ID..." name="batchid" id="inputBatchId" min="1" max="1000000">
+                                    <label for="inputBatchName">Batch</label>
+                                    <select maxlength="50" type="text" class="form-control combobox" name="batchid" id="inputBatchtName">
+                                        <option value="" selected="selected">Chose a batch</option>
+                                        <c:forEach var="batchx" items="${requestScope.lstb}">
+                                            <option value="${batchx.batchId}">${batchx.batchName}</option>
+                                        </c:forEach>
+
+                                    </select>
                                     <br>
                                 </div>
                                 <div>
-                                    <label for="inputSubjectId">Subject ID</label>
-                                    <input maxlength="10" type="number" class="form-control" placeholder="Enter Subject ID..." name="subjectid" id="inputSubjectId" min="1" max="1000000">
+                                    <label for="inputSubjectName">Subject</label>
+                                    <select maxlength="50" type="text" class="form-control combobox" name="subjectid" id="inputSubjecttName">
+                                        <option value="" selected="selected">Chose a subject</option>
+                                        <c:forEach var="sub" items="${requestScope.lsts}">
+                                            <option value="${sub.subjectId}">${sub.subjectName}</option>
+                                        </c:forEach>
+
+                                    </select>
                                     <br>
                                 </div>
                                 <div>
@@ -107,8 +118,8 @@
                                 <div>
                                     <div class="form-group">
                                         <label for="datetimepicker1">From</label>
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" />
+                                        <div class='input-group date' >
+                                            <input type='text' class="form-control" id='datetimepicker1' name="start" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -117,23 +128,35 @@
                                 </div>
                                 <script type="text/javascript">
                                     $(function () {
-                                        $('#datetimepicker1').datetimepicker();
+                                        $('#datetimepicker1').daterangepicker({
+                                            format: 'DD/MM/YYYY h:mm A',
+                                            timePicker: true,
+                                            timePickerIncrement: 15,
+                                            singleDatePicker: true
+                                        });
                                     });</script>
 
                                 <div>
                                     <div class="form-group date">
-                                        <label for="datetimepicker1">To</label>
-                                        <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' class="form-control" />
+                                        <label for="datetimepicker2">To</label>
+                                        <div class='input-group date' >
+                                            <input type='text' class="form-control" id='datetimepicker2' name="end" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
+                                <input type="hidden" id="startdate" name="startdate" /> 
+                                <input type="hidden" id="enddate" name="enddate" />
                                 <script type="text/javascript">
                                     $(function () {
-                                        $('#datetimepicker2').datetimepicker();
+                                        $('#datetimepicker2').daterangepicker({
+                                            format: 'DD/MM/YYYY h:mm A',
+                                            timePicker: true,
+                                            timePickerIncrement: 15,
+                                            singleDatePicker: true
+                                        });
                                     });</script>
                                 <div>
                                     <label for="assignmentstatus">Status</label>
@@ -144,11 +167,14 @@
                                     </select>
                                 </div>
                                 <br>
-                                <button class="btn btn-success" type="submit" name="action" id="search" value="search">Search</button>
-                                <a href="AssignmentController?action=tableassignment" class="btn btn-default">Clear search</a>
+                                <button class="btn btn-success" type="button" name="action" id="search" value="Assignment">Search Assignment</button>
+                                <a href="AssignmentController?action=ClearFinder" class="btn btn-default">Clear search</a>
                                 <button type="button" name="action" class="btn btn-primary" id="create" data-toggle="modal" data-target="#createAssignment" target="create">Create new assignment</button>
                             </div>
                         </form>
+
+
+
                         <div>
                             <h2>Assignment List</h2>
                             <div class="table-responsive">
@@ -186,6 +212,26 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="btn-group">
+                                <c:if test="${requestScope.page>1}">
+                                    <a type="button" href="${context}/AssignmentController?action=Assignment&page=${requestScope.page-1}" class="btn btn-default">Previous</a>
+                                </c:if>
+
+                                <c:forEach var="i" begin="1" end="${requestScope.noOfPages}">
+                                    <c:choose>
+                                        <c:when test="${i eq requestScope.page}">
+                                            <a href="${context}/AssignmentController?action=Assignment&page=${i}" type="button" class="btn btn-primary disabled">${i}</a>
+                                        </c:when>
+                                        <c:when test="${i ne requestScope.page}">
+                                            <a href="${context}/AssignmentController?action=Assignment&page=${i}" type="button" class="btn btn-default">${i}</a>
+                                        </c:when>
+                                    </c:choose>
+                                </c:forEach>
+
+                                <c:if test="${requestScope.page<requestScope.noOfPages}">
+                                    <a type="button" href="${context}/AssignmentController?action=Assignment&page=${requestScope.page+1}" class="btn btn-default">Next</a>
+                                </c:if>
+                            </div>
                         </div>
                     </div>
                     <!-- /.row -->
@@ -204,167 +250,187 @@
 
         <!-- Bootstrap Core JavaScript -->
         <script src="${resources}/js/bootstrap.min.js"></script>
-        <script src="${resources}/js/bootstrap-datepicker.js" type="text/javascript"></script>
-        <script src="${resources}/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-        <script src="${resources}/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
         <script src="${resources}/js/bootstrap-notify.min.js" type="text/javascript"></script>
-
+        <script src="${context}/template/plugins/daterangepicker/moment.min.js" type="text/javascript"></script>
+        <script src="${context}/template/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
         <script src="${resources}/js/myutil.js" type="text/javascript"></script>
         <script src="${resources}/js/validate.js" type="text/javascript"></script>
-        <script>
-                                    $(document).on('click', '#createAssignment', function (e) {
-                                        e.preventDefault();
-                                        if (checkCreateAssignment() === true) {
-                                            var obj = {
-                                                action: 'createassgnment',
-                                                assignmentName: $('#assignmentName').val().trim(),
-                                                password: $('#password').val().trim(),
-                                                status: $('#status').val().trim()
-                                            };
-                                            $.ajax({
-                                                url: "${context}/AssignmentAjaxController",
-                                                type: 'POST',
-                                                data: obj,
-                                                datatype: 'json',
-                                                success: function (data) {
-                                                    if (data.status === 0) {
-                                                        showMessage("Success!", data.message, "info");
-                                                        if ($('#createModal').length) {
-                                                            $('#createModal').modal('hide');
-                                                        }
-                                                    }
-                                                    if (data.status === 1) {
-                                                        showMessage("Error!", data.message, "warning");
-                                                    }
-                                                },
-                                                error: function (jqXHR, textStatus, errorThrown) {
-                                                    showMessage("Message", "An error occurred", "danger");
-                                                }
-                                            });
-                                        }
-                                    });
-
+        <script src="${context}/template/plugins/bootstrap-combobox-master/js/bootstrap-combobox.js" type="text/javascript"></script>
+        <script type="text/javascript">
                                     $(document).ready(function () {
-                                        $('[data-toggle="modal"]').click(function (e) {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-
-                                            var assignmentid = $(this).attr('assignment_id');
-                                            if (assignmentid) {
-                                                var dataTarget = $(this).attr('data-target');
-                                                var target = $(this).attr('target');
-                                                var obj = {
-                                                    id: assignmentid,
-                                                    target: target
-                                                };
-                                                $.ajax({
-                                                    url: '${context}/AssignmentAjaxController',
-                                                    type: 'POST',
-                                                    data: obj,
-                                                    dataType: 'html',
-                                                    error: function (xhr, status, error) {
-                                                        console.log('Error from ajax');
-                                                        console.log(status);
-                                                        console.log(xhr.responseText);
-                                                    },
-                                                    success: function (data) {
-                                                        if ($('#editAssignment').length) {
-                                                            $('#editAssignment').remove();
-                                                        }
-                                                        if ($('#deleteAssignment').length) {
-                                                            $('#deleteAssignment').remove();
-                                                        }
-                                                        $('body').prepend(data);
-                                                        var modal = $(dataTarget);
-                                                        modal.modal('show');
-                                                    }
-                                                });
-                                            } else {
-                                                var target = $(this).attr('target');
-                                                var obj = {
-                                                    id: -1,
-                                                    target: target
-                                                };
-                                                $.ajax({
-                                                    url: "${context}/AssignmentAjaxController",
-                                                    type: 'POST',
-                                                    data: obj,
-                                                    dataType: 'html',
-                                                    error: function (jqXHR, textStatus, errorThrown) {
-                                                        showMessage("Error", "Ajax error", "danger");
-                                                    },
-                                                    success: function (data) {
-                                                        if($('createAssignment').length){
-                                                            $('#createAssignment').remove();
-                                                        }
-                                                        $('body').prepend(data);
-                                                        $('#createAssignment').modal('show');
-                                                    }
-                                                });
-                                            }
-                                        });
+                                        $('.combobox').combobox();
                                     });
 
-                                    $(document).on('click', '#saveAssignment', function (e) {
-                                        e.preventDefault();
-                                        if (checkSaveAssignment()) {
-                                            var obj = {
-                                                action: 'saveassignment',
-                                                assignmentId: $('#eassignmentID').val().trim(),
-                                                assignmentName: $('#eassignmentName').val().trim(),
-                                                password: $('#epassword').val().trim(),
-                                                status: $('#estatus').val().trim()
-                                            };
-                                            $.ajax({
-                                                url: "${context}/AssignmentAjaxController",
-                                                type: 'POST',
-                                                data: obj,
-                                                datatype: 'json',
-                                                success: function (data) {
-                                                    if (data.status === 0) {
-                                                        showMessage("Success!", data.message, "info");
-                                                        if ($('#editModal').length) {
-                                                            $('#editModal').modal('hide');
-                                                        }
-                                                    }
-                                                    if (data.status === 1) {
-                                                        showMessage("Error!", data.message, "warning");
-                                                    }
-                                                },
-                                                error: function (jqXHR, textStatus, errorThrown) {
-                                                    showMessage("Message", "An error occurred", "danger");
-                                                }
-                                            });
-                                        }
-                                    });
+        </script>
+        <script>
+            $(document).on('click', '#search', function () {
+                if($('#datetimepicker1').data('daterangepicker').startDate !== null){
+                    $('#startdate').value = $('#datetimepicker1').data('daterangepicker').startDate.valueOf();
+                }
+                if($('#datetimepicker2').data('daterangepicker').startDate !== null){
+                    $('#enddate').value = $('#datetimepicker2').data('daterangepicker').startDate.valueOf();
+                }
+                $('#assignmentform').submit();
+            });
+        </script>
+        <script>
+            $(document).on('click', '#createasm', function (e) {
+                e.preventDefault();
+                if (checkCreateAssignment() === true) {
+                    var obj = {
+                        action: 'createasm',
+                        assignmentName: $('#cAssignmentname').val().trim(),
+                        batch: $('#cbatch').val().trim(),
+                        subject: $('#csubject').val().trim(),
+                        status: $('#status').val().trim(),
+                        startdate: $('#ctime').data('daterangepicker').startDate.valueOf(),
+                        enddate: $('#ctime').data('daterangepicker').endDate.valueOf()
+                    };
+                    $.ajax({
+                        url: "${context}/AssignmentAjaxController",
+                        type: 'POST',
+                        data: obj,
+                        datatype: 'json',
+                        success: function (data) {
+                            if (data.status === 0) {
+                                showMessage("Success!", data.message, "info");
+                                if ($('#createAssignment').length) {
+                                    $('#createAssignment').modal('hide');
+                                }
+                            }
+                            if (data.status === 1) {
+                                showMessage("Error!", data.message, "warning");
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            showMessage("Message", "An error occurred", "danger");
+                        }
+                    });
 
-                                    $(document).on('click', '#deleteAssignment', function (e) {
-                                        e.preventDefault();
-                                        var obj = {
-                                            action: 'deleteassignment',
-                                            assignmentId: $('#did').val().trim()
-                                        };
-                                        $.ajax({
-                                            url: "${context}/AssignmentAjaxController",
-                                            type: 'POST',
-                                            data: obj,
-                                            datatype: 'json',
-                                            success: function (data) {
-                                                if (data.status === 0) {
-                                                    showMessage("Success!", data.message, "info");
-                                                    if ($('#deleteModal').length) {
-                                                        $('#deleteModal').modal('hide');
-                                                    }
-                                                }
-                                                if (data.status === 1) {
-                                                    showMessage("Error!", data.message, "warning");
-                                                }
-                                            },
-                                            error: function (jqXHR, textStatus, errorThrown) {
-                                                showMessage("Message", "An error occurred", "danger");
-                                            }
-                                        });
-                                    });
+                }
+            });
+
+            $(document).ready(function () {
+                $('[data-toggle="modal"]').click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var assignmentid = $(this).attr('assignment_id');
+                    if (assignmentid) {
+                        var dataTarget = $(this).attr('data-target');
+                        var target = $(this).attr('target');
+                        var obj = {
+                            id: assignmentid,
+                            target: target
+                        };
+                        $.ajax({
+                            url: '${context}/AssignmentAjaxController',
+                            type: 'POST',
+                            data: obj,
+                            dataType: 'html',
+                            error: function (xhr, status, error) {
+                                console.log('Error from ajax');
+                                console.log(status);
+                                console.log(xhr.responseText);
+                            },
+                            success: function (data) {
+                                if ($('#editAssignment').length) {
+                                    $('#editAssignment').remove();
+                                }
+                                if ($('#deleteAssignment').length) {
+                                    $('#deleteAssignment').remove();
+                                }
+                                $('body').prepend(data);
+                                var modal = $(dataTarget);
+                                modal.modal('show');
+                            }
+                        });
+                    } else {
+                        var target = $(this).attr('target');
+                        var obj = {
+                            id: -1,
+                            target: target
+                        };
+                        $.ajax({
+                            url: "${context}/AssignmentAjaxController",
+                            type: 'POST',
+                            data: obj,
+                            dataType: 'html',
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                showMessage("Error", "Ajax error", "danger");
+                            },
+                            success: function (data) {
+                                if ($('createAssignment').length) {
+                                    $('#createAssignment').remove();
+                                }
+                                $('body').prepend(data);
+                                $('#createAssignment').modal('show');
+                            }
+                        });
+                    }
+                });
+            });
+
+            $(document).on('click', '#saveasm', function (e) {
+                e.preventDefault();
+                if (checkSaveAssignment()) {
+                    var obj = {
+                        action: 'editasm',
+                        assignmentId: $('#eassignmentID').val().trim(),
+                        assignmentName: $('#eassignmentName').val().trim(),
+                        password: $('#epassword').val().trim(),
+                        status: $('#estatus').val().trim()
+                    };
+                    $.ajax({
+                        url: "${context}/AssignmentAjaxController",
+                        type: 'POST',
+                        data: obj,
+                        datatype: 'json',
+                        success: function (data) {
+                            if (data.status === 0) {
+                                showMessage("Success!", data.message, "info");
+                                if ($('#editModal').length) {
+                                    $('#editModal').modal('hide');
+                                }
+                            }
+                            if (data.status === 1) {
+                                showMessage("Error!", data.message, "warning");
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            showMessage("Message", "An error occurred", "danger");
+                        }
+                    });
+                }
+            });
+
+            $(document).on('click', '#deleteasm', function (e) {
+                e.preventDefault();
+                var obj = {
+                    action: 'deleteasm',
+                    assignmentId: $('#did').val().trim()
+                };
+                $.ajax({
+                    url: "${context}/AssignmentAjaxController",
+                    type: 'POST',
+                    data: obj,
+                    datatype: 'json',
+                    success: function (data) {
+                        if (data.status === 0) {
+                            showMessage("Success!", data.message, "info");
+                            if ($('#deleteAssignment').length) {
+                                $('#deleteAssignment').modal('hide');
+                            }
+                        }
+                        if (data.status === 1) {
+                            showMessage("Error!", data.message, "warning");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showMessage("Message", "An error occurred", "danger");
+                    }
+                });
+            });
         </script>
     </body>
 </html>

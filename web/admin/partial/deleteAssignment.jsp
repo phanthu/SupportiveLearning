@@ -7,13 +7,13 @@
                     <h4 class="modal-title">Delete Batch</h4>
                 </div>
                 <div class="modal-body">
-                    Delete batch ${batch.batchName} ?
-                    <input hidden value="${batch.batchId}" id="did" />
+                    Delete Assignment ${assignment.assignmentName} ?
+                    <input hidden value="${assignment.assignmentId}" id="did" />
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" id="deleteB">Delete Batch</button>
+                    <button type="button" class="btn btn-danger" id="deleteasm">Delete Assignment</button>
             </form>
         </div>
     </div>

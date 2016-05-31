@@ -8,7 +8,6 @@ package com.apt.controller;
 import com.apt.entity.Assignment;
 import com.apt.entity.Batch;
 import com.apt.entity.Student;
-import com.apt.entity.Student;
 import com.apt.entity.Subject;
 import com.apt.entity.Submit;
 import com.apt.facade.AssignmentFacade;
@@ -153,7 +152,7 @@ public class StudentController extends HttpServlet {
         if (id != null && !id.equals("")) {
             finder.setStudentId(Integer.parseInt(id));
         }
-        if (batch != null && !batch.equals("")) {
+        if (batch != null && !batch.equals("0") && !batch.equals("")) {
             finder.setBatch(batch);
         }
         request.getSession().setAttribute("stuFinder", finder);

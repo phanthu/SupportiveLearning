@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin Login</title>
+        <title>Student Login</title>
 
         <c:set var="resources" value="${pageContext.servletContext.contextPath}/resources" />
         

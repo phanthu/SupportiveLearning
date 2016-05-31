@@ -6,7 +6,11 @@
 package com.apt.controller;
 
 import com.apt.entity.Assignment;
+import com.apt.entity.Batch;
+import com.apt.entity.Subject;
 import com.apt.facade.AssignmentFacade;
+import com.apt.facade.BatchFacade;
+import com.apt.facade.SubjectFacade;
 import com.apt.finder.AssignmentFinder;
 import com.apt.utils.MyUtils;
 import java.io.IOException;
@@ -53,16 +57,33 @@ public class AssignmentController extends HttpServlet {
 
     private void show(HttpServletRequest request, MyUtils myUtils, HttpServletResponse response) throws ServletException, NumberFormatException, IOException {
         String name = request.getParameter("name");
-        String id = request.getParameter("id");
         AssignmentFinder finder = new AssignmentFinder();
         if (request.getSession().getAttribute("assignmentFinder") != null) {
             finder = (AssignmentFinder) request.getSession().getAttribute("assignmentFinder");
         }
+        String id = request.getParameter("id");
+        String batchid = request.getParameter("batchid");
+        String subjectid = request.getParameter("subjectid");
+        String status = request.getParameter("status");
+        String startDate= request.getParameter("startdate");
+        String endDate = request.getParameter("enddate");
+        if(batchid!=null&&!batchid.equals("")){
+            Batch batch = new BatchFacade().findBatch(Integer.parseInt(batchid));
+            finder.setBatch(batch);
+        }
+        if(subjectid!=null&&!subjectid.equals("")){
+            Subject subject = new SubjectFacade().findSubject(Integer.parseInt(subjectid));
+            finder.setSubject(subject);
+        }
+               
         if (name != null && !name.equals("")) {
             finder.setAssignmentName(name);
         }
         if (id != null && !id.equals("")) {
             finder.setAssignmentId(Integer.parseInt(id));
+        }
+        if(status!=null && !status.equals("") && !status.equals("0")){
+            finder.setStatus(Byte.parseByte(status));
         }
         request.getSession().setAttribute("assignmentFinder", finder);
 
@@ -76,7 +97,10 @@ public class AssignmentController extends HttpServlet {
         List<Assignment> lst = assignmentFacade.getAssignmentList(finder, page, recordPerPage);
         int size = assignmentFacade.getNumberAssignment(finder);
         noOfPage = myUtils.roundup(size, recordPerPage);
-
+        List<Batch> lstb = new BatchFacade().getAll();
+        List<Subject> lsts = new SubjectFacade().getAll();
+        request.setAttribute("lsts", lsts);
+        request.setAttribute("lstb", lstb);
         request.setAttribute("lst", lst);
         request.setAttribute("noOfPages", noOfPage);
         request.setAttribute("page", page);

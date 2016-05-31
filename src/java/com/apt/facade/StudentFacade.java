@@ -234,7 +234,7 @@ public class StudentFacade {
             if (finder.getBatch() != null) {
                 crit.createAlias("batch", "a");
                 Integer i=myUtils.tryParseInt(finder.getBatch());
-                Criterion rest = Restrictions.or(Restrictions.eq("a.batchId", i), Restrictions.ilike("a.batchName", "%"+finder.getBatch()+"%"));
+                Criterion rest = Restrictions.or(Restrictions.eq("a.batchId", i), Restrictions.eq("a.batchName", finder.getBatch()));
                 crit.add(Restrictions.and(rest));
             }
             crit.setFirstResult((page - 1) * recordPerPage);
