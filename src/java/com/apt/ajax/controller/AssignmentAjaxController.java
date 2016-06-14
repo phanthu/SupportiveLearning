@@ -44,56 +44,75 @@ public class AssignmentAjaxController extends HttpServlet {
         response.setContentType("application/json");
         Gson gson = new Gson();
         AssignmentFacade assignmentFacade = new AssignmentFacade();
-        
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
             if (action != null && !action.equals("")) {
                 MessageBean messageBean = new MessageBean();
+                String assignmentId = request.getParameter("assignmentId");
+                String assignmentName = request.getParameter("assignmentName");
+                String batch = request.getParameter("batch");
+                String subject = request.getParameter("subject");
+                String status = request.getParameter("status");
+                String startDate = request.getParameter("startdate");
+                String endDate = request.getParameter("enddate");
                 if (action.equalsIgnoreCase("createasm")) {
-                    String assignmentName = request.getParameter("assignmentName");
-                    String batch = request.getParameter("batch");
-                    String subject = request.getParameter("subject");
-                    String status = request.getParameter("status");
-                    String startDate = request.getParameter("startdate");
-                    String endDate = request.getParameter("enddate");
                     Assignment assignment = new Assignment();
                     assignment.setAssignmentName(assignmentName);
                     assignment.setBatch(new BatchFacade().findBatch(Integer.parseInt(batch)));
                     assignment.setSubject(new SubjectFacade().findSubject(Integer.parseInt(subject)));
                     assignment.setStatus(Byte.parseByte(status));
                     Date start = new Date(Long.parseLong(startDate));
-                    Date end = new Date(Long.parseLong(endDate)+1000);
+                    Date end = new Date(Long.parseLong(endDate) + 1000);
                     assignment.setStartTime(start);
                     assignment.setEndTime(end);
+                    try {
+                        assignmentFacade.create(assignment);
+                        messageBean.setStatus(0);
+                        messageBean.setMessage("Create Assignment successfully");
+                        gson.toJson(messageBean, out);
+                    } catch (Exception ex) {
+                        messageBean.setStatus(1);
+                        messageBean.setMessage(ex.getMessage());
+                        gson.toJson(messageBean, out);
+                    }
+
+                }
+                if (action.equalsIgnoreCase("editasm")) {
+                    Assignment assignment = new Assignment();
+                    assignment.setAssignmentId(Integer.parseInt(assignmentId));
+                    assignment.setAssignmentName(assignmentName);
+                    assignment.setBatch(new BatchFacade().findBatch(Integer.parseInt(batch)));
+                    assignment.setSubject(new SubjectFacade().findSubject(Integer.parseInt(subject)));
+                    assignment.setStatus(Byte.parseByte(status));
+                    assignment.setStartTime(new Date(Long.parseLong(startDate)));
+                    assignment.setEndTime(new Date(Long.parseLong(endDate)));
                     try{
-                            assignmentFacade.create(assignment);
-                            messageBean.setStatus(0);
-                            messageBean.setMessage("Create Assignment successfully");
-                            gson.toJson(messageBean,out);
-                    } catch(Exception ex){
+                        assignmentFacade.updateAssignment(assignment);
+                        messageBean.setStatus(0);
+                        messageBean.setMessage("Save assignment successfully");
+                        gson.toJson(messageBean,out);
+                        
+                    }catch(Exception ex){
                         messageBean.setStatus(1);
                         messageBean.setMessage(ex.getMessage());
                         gson.toJson(messageBean,out);
                     }
-                                       
-                }
-                if (action.equalsIgnoreCase("editasm")) {
-
                 }
                 if (action.equalsIgnoreCase("deleteasm")) {
                     String id = request.getParameter("assignmentId");
-                    try{
+                    try {
                         assignmentFacade.deleteAssignment(Integer.parseInt(id));
                         messageBean.setStatus(0);
                         messageBean.setMessage("delete successful");
-                        gson.toJson(messageBean,out);
-                    }catch(NumberFormatException | JsonIOException ex){
+                        gson.toJson(messageBean, out);
+                    } catch (NumberFormatException | JsonIOException ex) {
                         messageBean.setStatus(1);
                         messageBean.setMessage(ex.getMessage());
-                        gson.toJson(messageBean,out);
+                        gson.toJson(messageBean, out);
                     }
-                    
+
                 }
             } else {
                 String target = request.getParameter("target");
@@ -127,6 +146,16 @@ public class AssignmentAjaxController extends HttpServlet {
                     }
                     if (target.equalsIgnoreCase("create")) {
                         request.getRequestDispatcher("admin/partial/createAssignment.jsp").include(request, response);
+                        BufferedReader br = request.getReader();
+                        StringBuilder sb = new StringBuilder();
+                        String str = "";
+                        while ((str = br.readLine()) != null) {
+                            sb.append(str);
+                        }
+                        gson.toJson(sb.toString(), out);
+                    }
+                    if(target.equalsIgnoreCase("upload")){
+                        request.getRequestDispatcher("admin/modalupload.jsp").include(request, response);
                         BufferedReader br = request.getReader();
                         StringBuilder sb = new StringBuilder();
                         String str = "";

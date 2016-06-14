@@ -15,6 +15,7 @@ import com.apt.finder.AssignmentFinder;
 import com.apt.utils.MyUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,8 +37,8 @@ public class AssignmentController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     private final AssignmentFacade assignmentFacade = new AssignmentFacade();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,8 +46,8 @@ public class AssignmentController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
             MyUtils myUtils = new MyUtils();
-            
-         if (action.equalsIgnoreCase("Assignment")) {
+
+            if (action.equalsIgnoreCase("Assignment")) {
                 show(request, myUtils, response);
             } else if (action.equalsIgnoreCase("ClearFinder")) {
                 request.getSession().removeAttribute("assignmentFinder");
@@ -56,35 +57,44 @@ public class AssignmentController extends HttpServlet {
     }
 
     private void show(HttpServletRequest request, MyUtils myUtils, HttpServletResponse response) throws ServletException, NumberFormatException, IOException {
-        String name = request.getParameter("name");
         AssignmentFinder finder = new AssignmentFinder();
         if (request.getSession().getAttribute("assignmentFinder") != null) {
             finder = (AssignmentFinder) request.getSession().getAttribute("assignmentFinder");
         }
-        String id = request.getParameter("id");
+        String id = request.getParameter("assignmentid");
         String batchid = request.getParameter("batchid");
         String subjectid = request.getParameter("subjectid");
         String status = request.getParameter("status");
-        String startDate= request.getParameter("startdate");
+        String name = request.getParameter("assignmentname");
+        String startDate = request.getParameter("startdate");
         String endDate = request.getParameter("enddate");
-        if(batchid!=null&&!batchid.equals("")){
+        if (batchid != null && !batchid.equals("")) {
             Batch batch = new BatchFacade().findBatch(Integer.parseInt(batchid));
             finder.setBatch(batch);
         }
-        if(subjectid!=null&&!subjectid.equals("")){
+        if (subjectid != null && !subjectid.equals("")) {
             Subject subject = new SubjectFacade().findSubject(Integer.parseInt(subjectid));
             finder.setSubject(subject);
         }
-               
+
         if (name != null && !name.equals("")) {
             finder.setAssignmentName(name);
         }
         if (id != null && !id.equals("")) {
             finder.setAssignmentId(Integer.parseInt(id));
         }
-        if(status!=null && !status.equals("") && !status.equals("0")){
+        if (status != null && !status.equals("") && !status.equals("0")) {
             finder.setStatus(Byte.parseByte(status));
         }
+        if (startDate != null && !startDate.equals("")) {
+            Date start = new Date(Long.parseLong(startDate));
+            finder.setStarttime(start);
+        }
+        if (endDate != null && !endDate.equals("")) {
+            Date end = new Date(Long.parseLong(endDate));
+            finder.setEndtime(end);
+        }
+
         request.getSession().setAttribute("assignmentFinder", finder);
 
         int page = 1;

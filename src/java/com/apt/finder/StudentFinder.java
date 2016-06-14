@@ -14,13 +14,13 @@ import com.apt.entity.Batch;
 public class StudentFinder extends AbstractFinder{
     private  Integer studentId;
     private String studentName;
-    private String batch;
+    private Batch batch;
 
-    public String getBatch() {
+    public Batch getBatch() {
         return batch;
     }
 
-    public void setBatch(String batch) {
+    public void setBatch(Batch batch) {
         this.batch = batch;
     }
 

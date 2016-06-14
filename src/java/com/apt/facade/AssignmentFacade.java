@@ -159,6 +159,29 @@ public class AssignmentFacade {
         }
         return true;
     }
+    
+    public void updateAssignment(Assignment assignment){
+        Session session = null;
+        Transaction trans = null;
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            trans = session.beginTransaction();
+
+            session.update(assignment);
+
+            trans.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (trans != null) {
+                trans.rollback();
+            }
+        } finally {
+            if (session != null && session.isConnected()) {
+                session.close();
+            }
+        }
+    }
 
     public Assignment findAssignment(int assignmentID) {
         Session session = null;
@@ -334,6 +357,13 @@ public class AssignmentFacade {
             if(finder.getSubject()!=null){
                 crit.add(Restrictions.and(Restrictions.eq("subject", finder.getSubject())));
             }
+            if(finder.getStatus()!=null){
+                crit.add(Restrictions.and(Restrictions.eq("status",finder.getStatus())));
+            }if(finder.getStarttime()!=null){
+                crit.add(Restrictions.and(Restrictions.ge("startTime", finder.getStarttime())));
+            }if(finder.getEndtime()!=null){
+                crit.add(Restrictions.and(Restrictions.le("endTime", finder.getEndtime())));
+            }
             crit.setFirstResult((page - 1) * recordPerPage);
             crit.setMaxResults(recordPerPage);
             lst = crit.list();
@@ -377,6 +407,15 @@ public class AssignmentFacade {
             }
             if(finder.getSubject()!=null){
                 crit.add(Restrictions.and(Restrictions.eq("subject", finder.getSubject())));
+            }
+            if(finder.getStatus()!=null){
+                crit.add(Restrictions.and(Restrictions.eq("status",finder.getStatus())));
+            }
+            if(finder.getStarttime()!=null){
+                crit.add(Restrictions.and(Restrictions.ge("startTime", finder.getStarttime())));
+            }
+            if(finder.getEndtime()!=null){
+                crit.add(Restrictions.and(Restrictions.le("endTime", finder.getEndtime())));
             }
 
             lst = crit.list();

@@ -4,7 +4,7 @@
             <form id="fileform">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">${assignmentid}</h4>
+                    <h4 class="modal-title">${assignment.assignmentName}</h4>
                 </div>
                 <div class="modal-body">
                     <input type="file" id="fileupload" class="filestyle" data-buttonName="btn-info" data-buttonBefore="true">

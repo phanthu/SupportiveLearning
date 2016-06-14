@@ -107,7 +107,7 @@ function checkCreateAssignment(){
     return flag;
 }
 
-function checkEditAssignment(){
+function checkSaveAssignment(){
     var flag = true;
     return flag;
 }

@@ -6,6 +6,8 @@
 package com.apt.ajax.controller;
 
 import com.apt.bean.MessageBean;
+import com.apt.entity.Assignment;
+import com.apt.facade.AssignmentFacade;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -66,46 +69,63 @@ public class AjaxUpload extends HttpServlet {
 
                 try {
                     items = upload.parseRequest(request);
-                } catch (Exception ex) {
-                }
-                if (items != null) {
-                    Iterator iterator = items.iterator();
-                    while (iterator.hasNext()) {
-                        FileItem item = (FileItem) iterator.next();
-                        if (item.isFormField()) {
-                            String fieldName = item.getFieldName();
-                            if (fieldName.equals("assignmentid")) {
-                                String assignmentId = item.getString();
-                                File c = new File(uploadDir + File.separator + assignmentId);
-                                if (!c.exists()) {
-                                    c.mkdir();
-                                }
-                                uploadDir = c.getPath();
-                                String stuid = request.getSession().getAttribute("studentId").toString();
-                                if (stuid != null && !stuid.equals("")) {
-                                    File stuDir = new File(uploadDir+File.separator+stuid);
-                                    if(!stuDir.exists()){
-                                        stuDir.mkdir();
+                    if (items != null) {
+                        Iterator iterator = items.iterator();
+                        String assignmentId="";
+                        String stuid="";
+                        while (iterator.hasNext()) {
+                            FileItem item = (FileItem) iterator.next();
+                            if (item.isFormField()) {
+                                String fieldName = item.getFieldName();
+                                if (fieldName.equals("assignmentid")) {
+                                    assignmentId = item.getString();
+                                    File c = new File(uploadDir + File.separator + assignmentId);
+                                    if (!c.exists()) {
+                                        c.mkdir();
                                     }
-                                    uploadDir = stuDir.getPath();
+                                    uploadDir = c.getPath();
+                                    if (request.getSession().getAttribute("studentId") != null) {
+                                        stuid = request.getSession().getAttribute("studentId").toString();
+                                        File stuDir = new File(uploadDir + File.separator + stuid);
+                                        if (!stuDir.exists()) {
+                                            stuDir.mkdir();
+                                        }
+                                        uploadDir = stuDir.getPath();
+                                    }
                                 }
-                            }
-                        } else {
-                            String itemname = item.getName();
-                            if (itemname == null || itemname.equals("")) {
                             } else {
-                                String filename = FilenameUtils.getName(itemname);
-                                String aid = request.getParameter("assignmentid");
-                                File f = new File(uploadDir + File.separator + filename);
-                                item.write(f);
-                                messageBean.setStatus(0);
-                                messageBean.setMessage("File " + f.getName() + " sucessfuly uploaded");
+                                String itemname = item.getName();
+                                if (itemname == null || itemname.equals("")) {
+                                } else {
+                                    String filename = FilenameUtils.getName(itemname);
+                                    File f = new File(uploadDir + File.separator + filename);
+                                    String[] split = f.getPath().split(Pattern.quote(File.separator) + "upload" + Pattern.quote(File.separator));
+                                    String save = split[split.length - 1];
+                                    if(assignmentId!=null&&!assignmentId.equals("")){
+                                        if(stuid!=null&&!stuid.equals("")){
+                                            
+                                        }else{
+                                            Assignment assignment = new AssignmentFacade().findAssignment(Integer.parseInt(assignmentId));
+                                            assignment.setUrl(save);        
+                                            new AssignmentFacade().updateAssignment(assignment);
+                                        }
+                                    }
+                                    item.write(f);
+                                    messageBean.setStatus(0);
+                                    messageBean.setMessage("File " + f.getName() + " sucessfuly uploaded");
+
+                                }
                             }
                         }
                     }
+
+                    gson.toJson(messageBean, out);
+                } catch (Exception ex) {
+                    messageBean.setStatus(1);
+                    messageBean.setMessage(ex.getMessage());
+                    gson.toJson(messageBean,out);
                 }
 
-                gson.toJson(messageBean, out);
             }
         } catch (Exception ex) {
             Logger.getLogger(AjaxUpload.class.getName()).log(Level.SEVERE, null, ex);

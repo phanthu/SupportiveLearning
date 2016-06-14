@@ -5,6 +5,8 @@
  */
 package com.apt.ajax.controller;
 
+import com.apt.entity.Assignment;
+import com.apt.facade.AssignmentFacade;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,6 +53,8 @@ public class SubmitAjaxController extends HttpServlet {
                 String assignmentId = request.getParameter("id");
                 if (assignmentId != null && !assignmentId.equals("")) {
                     request.setAttribute("assignmentid", assignmentId);
+                    Assignment assignment = new AssignmentFacade().findAssignment(Integer.parseInt(assignmentId));
+                    request.setAttribute("assignment", assignment);
                 }
                 request.getRequestDispatcher("modalupload.jsp").include(request, response);
                 BufferedReader br = request.getReader();

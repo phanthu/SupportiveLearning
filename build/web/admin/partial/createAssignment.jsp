@@ -67,7 +67,7 @@
         $('#ctime').daterangepicker({
             timePicker:true,
             timePickerIncrement:15,
-            format:'DD-MM-YYYY hh:mm A'
+            format:'DD-MM-YYYY HH:mm:ss'
         });
     });
 </script>

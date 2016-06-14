@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="modal fade" tabindex="-1" role="dialog" id="editAssignment">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -17,7 +18,7 @@
                         <select class="form-control" name="batchid" id="ebatch">
                             <option value="" selected="selected">Chose a batch</option>
                             <c:forEach var="b" items="${requestScope.lstb}">
-                                <option value="${b.batchId}">${b.batchName}</option>
+                                <option value="${b.batchId}" ${b.batchId eq assignment.batch.batchId ? "selected":""} >${b.batchName}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -27,21 +28,21 @@
                         <select class="form-control" name="subjectid" id="esubject">
                             <option value="" selected="selected">Chose a subject</option>
                             <c:forEach var="s" items="${requestScope.lsts}">
-                                <option value="${s.subjectId}">${s.subjectName}</option>
+                                <option value="${s.subjectId}" ${s.subjectId eq assignment.subject.subjectId ? "selected":""} >${s.subjectName}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <br>
                     <div>
                         <label for="eAssignmentname">Assignment Name</label>
-                        <input type="text" class="form-control" maxlength="50" id="eAssignmentname" />
+                        <input type="text" class="form-control" maxlength="50" id="eAssignmentname" value="${assignment.assignmentName}" />
                     </div>
                     <br>
                     <div>
                         <div class="form-group date">
                             <label for="estart">Start date</label>
                             <div class='input-group date' >
-                                <input type='text' class="form-control" id='estart' />
+                                <input type='text' class="form-control" id='estart' value="<fmt:formatDate pattern="dd-MM-yyyy hh:mm:ss" value="${assignment.startTime}" />" />
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -52,7 +53,7 @@
                         <div class="form-group date">
                             <label for="eend">End date</label>
                             <div class='input-group date' >
-                                <input type='text' class="form-control" id='eend' />
+                                <input type='text' class="form-control" id='eend' value="<fmt:formatDate pattern="dd-MM-yyyy hh:mm:ss" value="${assignment.endTime}" />" />
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -60,10 +61,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="status">Status</label>
-                        <select class="form-control" id="status" name="status">
-                            <option value="1" selected class="form-control">Active</option>
-                            <option value="2" class="form-control">Disable</option>
+                        <label for="estatus">Status</label>
+                        <select class="form-control" id="estatus" name="status">
+                            <option value="1" class="form-control" ${assignment.status eq 1 ? "selected":""} >Active</option>
+                            <option value="2" class="form-control" ${assignment.status eq 2 ? "selected":""} >Disable</option>
                         </select>
                     </div>
                 </div>
@@ -83,13 +84,13 @@
             singleDatePicker:true,
             timePicker: true,
             timePickerIncrement: 15,
-            format: 'DD-MM-YYYY hh:mm A'
+            format: 'DD-MM-YYYY HH:mm:ss'
         });
         $('#eend').daterangepicker({
             singleDatePicker:true,
             timePicker: true,
             timePickerIncrement: 15,
-            format: 'DD-MM-YYYY hh:mm A'
+            format: 'DD-MM-YYYY HH:mm:ss'
         });
     });
 </script>

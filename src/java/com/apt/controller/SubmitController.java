@@ -5,8 +5,13 @@
  */
 package com.apt.controller;
 
+import com.apt.entity.Assignment;
+import com.apt.entity.Submit;
+import com.apt.facade.AssignmentFacade;
+import com.apt.facade.SubmitFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,15 +37,12 @@ public class SubmitController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SubmitController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SubmitController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String assignment = request.getParameter("assignment");
+            Assignment asm = new AssignmentFacade().findAssignment(Integer.parseInt(assignment));
+
+            List<Submit> lst = new SubmitFacade().getSubmits(asm);
+            request.setAttribute("lst", lst);
+            request.getRequestDispatcher("admin/submit.jsp").forward(request, response);
         }
     }
 

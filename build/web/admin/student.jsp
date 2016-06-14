@@ -94,10 +94,10 @@
                                 </div>
                                 <div>
                                     <label for="inputBatchName">Batch</label>
-                                    <select maxlength="50" type="text" class="form-control combobox" placeholder="Enter Batch name..." name="batch" id="inputBatchtName">
+                                    <select maxlength="50" type="text" class="form-control combobox" placeholder="Enter Batch name..." name="batch" id="inputBatchtName" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                                         <option value="" selected="selected">Chose a batch</option>
                                         <c:forEach var="batchx" items="${requestScope.lstb}">
-                                            <option value="${batchx.batchId}">${batchx.batchName}</option>
+                                            <option value="${batchx.batchId}" ${sessionScope.stuFinder.batch.batchId eq batchx.batchId ? "selected" : ""}>${batchx.batchName}</option>
                                         </c:forEach>
 
                                     </select>
@@ -185,7 +185,11 @@
             $(document).ready(function () {
                 $('.combobox').combobox();
             });
-
+            $(document).ready(function () {
+                $(document).on('focus', ':input', function () {
+                    $(this).attr('autocomplete', 'off');
+                });
+            });
         </script>
         <script>
             $(document).on('click', '#createStu', function (e) {

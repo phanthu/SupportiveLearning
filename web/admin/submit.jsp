@@ -100,53 +100,22 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-striped">
                                     <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Assignment ID</th>
-                                            <th>Student ID</th>
-                                            <th>Student Name</th>
-                                            <th>Url</th>
-                                            <th>Mark</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>Nguyen Van A</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>2</td>
-                                            <td>1</td>
-                                            <td>Nguyen Van A</td>
-                                            <td></td>
-                                            <td>9</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>3</td>
-                                            <td>1</td>
-                                            <td>Nguyen Van A</td>
-                                            <td></td>
-                                            <td>9</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>3</td>
-                                            <td>2</td>
-                                            <td>Nguyen Van B</td>
-                                            <td></td>
-                                            <td>8</td>
-                                            <td></td>
-                                        </tr>
+                                    <th>Student ID</th>
+                                    <th>Student Name</th>
+                                    <th>URL</th>
+                                    <th>Mark</th>
+                                    <th>Action</th>
                                     </thead>
                                     <tbody>
+                                        <c:forEach var="submit" items="${requestScope.lst}">
+                                            <tr id="submit${submit.submitId}">
+                                                <td>${submit.student.studentId}</td>
+                                                <td>${submit.sutdent.studentName}</td>
+                                                <td>${submit.url}</td>
+                                                <td>${submit.mark}</td>
+                                                <td></td>
+                                            </tr>
+                                        </c:forEach>
                                     </tbody>
                                 </table>
                             </div>

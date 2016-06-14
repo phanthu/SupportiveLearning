@@ -48,7 +48,7 @@
 
     </head>
 
-    <body class="">
+    <body>
         <jsp:include page="adminchangepassword.jsp" />
         <div id="wrapper">
             <!-- Navigation -->
@@ -130,7 +130,7 @@
                                         <tr id="${admin.adminId}">
                                             <td>${admin.adminId}</td>
                                             <td>${admin.adminName}</td>
-                                            <td>${admin.status}</td>
+                                            <td>${admin.status eq 1 ? "<font color='green'>active":"<font color='red'>disable"}</td>
                                             <td><button class="btn btn-primary btn-sm" admin_id="${admin.adminId}" data-toggle="modal" target="edit" data-target="#editModal">Edit</button>
                                                 <button class="btn btn-danger btn-sm" admin_id="${admin.adminId}" data-toggle="modal" target="delete" data-target="#deleteModal">Delete</button></td>
                                         </tr>
@@ -174,7 +174,7 @@
                                         <tr>
                                             <td>${admin.adminId}</td>
                                             <td>${admin.adminName}</td>
-                                            <td>${admin.status}</td>
+                                            <td>${admin.status eq 1 ? "<font color='green'>active":"<font color='red'>disable"}</td>
                                             <td><button class="btn btn-primary btn-sm" admin_id="${admin.adminId}" data-toggle="modal" target="edit" data-target="#editModal">Edit</button>
                                                 <button class="btn btn-danger btn-sm" admin_id="${admin.adminId}" data-toggle="modal" target="delete" data-target="#deleteModal">Delete</button></td>
                                         </tr>

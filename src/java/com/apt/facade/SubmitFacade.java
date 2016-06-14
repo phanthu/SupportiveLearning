@@ -182,4 +182,32 @@ public class SubmitFacade {
         }
         return submit;
     }
+    
+    public List<Submit> getSubmits(Assignment assignment){
+        List<Submit> lst = new ArrayList<>();
+
+        Session session = null;
+        Transaction trans = null;
+
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            trans = session.beginTransaction();
+
+            lst = session.createCriteria(Submit.class).add(Restrictions.eq("assignment", assignment)).list();
+
+            trans.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (trans != null) {
+                trans.rollback();
+            }
+        } finally {
+            if (session != null && session.isConnected()) {
+                session.close();
+            }
+        }
+
+        return lst;
+    }
 }

@@ -8,6 +8,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -147,12 +148,12 @@
                                                         <table class="table">
                                                             <tr>
                                                                 <td>Start time</td>
-                                                                <td colspan="2">${asm.startTime}</td>
+                                                                <td colspan="2"><fmt:formatDate value="${asm.startTime}" pattern="dd-MM-yyyy HH:mm:ss" /></td>
                                                                 <td align="center">Mark</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Dead line</td>
-                                                                <td colspan="2">${asm.endTime}</td>
+                                                                <td colspan="2"><fmt:formatDate value="${asm.endTime}" pattern="dd-MM-yyyy HH:mm:ss" /></td>
                                                                 <td align="center" valign="bottom" rowspan="2" style="font-size: 40px">9</td>
                                                             </tr>
                                                             <tr>

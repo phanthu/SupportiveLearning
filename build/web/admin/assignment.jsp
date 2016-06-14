@@ -6,41 +6,43 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
-    <head>
-
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <title>Assignment</title>
-
-        <c:set var="resources" value="${pageContext.servletContext.contextPath}/resources" />
-        <c:set var="context" value="${pageContext.servletContext.contextPath}" />
 
 
-        <!-- Bootstrap Core CSS -->
-        <link href="${resources}/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <!-- Custom CSS -->
-        <link href="${resources}/css/sb-admin.css" rel="stylesheet">
+    <title>Assignment</title>
 
-        <!-- Custom Fonts -->
-        <link href="${resources}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link href="${context}/template/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
-        <link href="${context}/template/plugins/bootstrap-combobox-master/css/bootstrap-combobox.css" rel="stylesheet" type="text/css"/>
+    <c:set var="resources" value="${pageContext.servletContext.contextPath}/resources" />
+    <c:set var="context" value="${pageContext.servletContext.contextPath}" />
 
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="/https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
 
-    </head>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="${resources}/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="${resources}/css/sb-admin.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="${resources}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="${context}/template/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+    <link href="${context}/template/plugins/bootstrap-combobox-master/css/bootstrap-combobox.css" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="/https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
 
     <body>
         <jsp:include page="adminchangepassword.jsp" />
@@ -129,12 +131,16 @@
                                 <script type="text/javascript">
                                     $(function () {
                                         $('#datetimepicker1').daterangepicker({
-                                            format: 'DD/MM/YYYY h:mm A',
+                                            format: 'DD-MM-YYYY HH:mm:ss',
                                             timePicker: true,
                                             timePickerIncrement: 15,
                                             singleDatePicker: true
                                         });
-                                    });</script>
+                                        $('#datetimepicker1').on('apply.daterangepicker', function (ev, picker) {
+                                            $('#startdate').val($('#datetimepicker1').data('daterangepicker').startDate.valueOf());
+                                        });
+                                    });
+                                </script>
 
                                 <div>
                                     <div class="form-group date">
@@ -152,15 +158,19 @@
                                 <script type="text/javascript">
                                     $(function () {
                                         $('#datetimepicker2').daterangepicker({
-                                            format: 'DD/MM/YYYY h:mm A',
+                                            format: 'DD-MM-YYYY HH:mm:ss',
                                             timePicker: true,
                                             timePickerIncrement: 15,
                                             singleDatePicker: true
                                         });
-                                    });</script>
+                                        $('#datetimepicker2').on('apply.daterangepicker', function (ev, picker) {
+                                            $('#enddate').val($('#datetimepicker2').data('daterangepicker').startDate.valueOf());
+                                        });
+                                    });
+                                </script>
                                 <div>
                                     <label for="assignmentstatus">Status</label>
-                                    <select class="form-control" id="assignmentstatus">
+                                    <select class="form-control" id="assignmentstatus" name="status">
                                         <option value="0" selected>Bolt</option>
                                         <option value="1">Active</option>
                                         <option value="2">Disable</option>
@@ -199,13 +209,15 @@
                                                 <td>${assignment.assignmentName}</td>
                                                 <td>${assignment.subject.subjectName}</td>
                                                 <td>${assignment.batch.batchName}</td>
-                                                <td>${assignment.startTime}</td>
-                                                <td>${assignment.endTime}</td>
+                                                <td><fmt:formatDate value="${assignment.startTime}" pattern="dd-MM-yyyy HH:mm:ss" /></td>
+                                                <td><fmt:formatDate value="${assignment.endTime}" pattern="dd-MM-yyyy HH:mm:ss" /></td>
                                                 <td>${assignment.url}</td>
-                                                <td>${assignment.status}</td>
-                                                <td>
+                                                <td>${assignment.status eq 1 ? "<font color='green'>active":"<font color='red'>disable"}</td>
+                                                <td style="white-space: nowrap">
                                                     <button class="btn btn-primary btn-sm" assignment_id="${assignment.assignmentId}" data-toggle="modal" target="edit" data-target="#editAssignment">Edit</button>
                                                     <button class="btn btn-danger btn-sm" assignment_id="${assignment.assignmentId}" data-toggle="modal" target="delete" data-target="#deleteAssignment">Delete</button>
+                                                    <a href="SubmitController?assignment=${assignment.assignmentId}" class="btn btn-info btn-sm" assignment_id="${assignment.assignmentId}" >View Submit</a>
+                                                    <button class="btn btn-success btn-sm" assignment_id="${assignment.assignmentId}" data-toggle="modal" target="upload" data-target="#modalupload">Upload</button>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -264,13 +276,12 @@
         </script>
         <script>
             $(document).on('click', '#search', function () {
-                if($('#datetimepicker1').data('daterangepicker').startDate !== null){
-                    $('#startdate').value = $('#datetimepicker1').data('daterangepicker').startDate.valueOf();
-                }
-                if($('#datetimepicker2').data('daterangepicker').startDate !== null){
-                    $('#enddate').value = $('#datetimepicker2').data('daterangepicker').startDate.valueOf();
-                }
                 $('#assignmentform').submit();
+            });
+            $(document).ready(function () {
+                $(document).on('focus', ':input', function () {
+                    $(this).attr('autocomplete', 'off');
+                });
             });
         </script>
         <script>
@@ -340,6 +351,9 @@
                                 if ($('#deleteAssignment').length) {
                                     $('#deleteAssignment').remove();
                                 }
+                                if ($('#modalupload').length) {
+                                    $('#modalupload').remove();
+                                }
                                 $('body').prepend(data);
                                 var modal = $(dataTarget);
                                 modal.modal('show');
@@ -371,15 +385,18 @@
                 });
             });
 
-            $(document).on('click', '#saveasm', function (e) {
+            $(document).on('click', '#saveAsm', function (e) {
                 e.preventDefault();
                 if (checkSaveAssignment()) {
                     var obj = {
                         action: 'editasm',
-                        assignmentId: $('#eassignmentID').val().trim(),
-                        assignmentName: $('#eassignmentName').val().trim(),
-                        password: $('#epassword').val().trim(),
-                        status: $('#estatus').val().trim()
+                        batch: $('#ebatch').val().trim(),
+                        subject: $('#esubject').val().trim(),
+                        assignmentId: $('#eAssignmentid').val().trim(),
+                        assignmentName: $('#eAssignmentname').val().trim(),
+                        status: $('#estatus').val().trim(),
+                        startdate: $('#estart').data('daterangepicker').startDate.valueOf(),
+                        enddate: $('#eend').data('daterangepicker').startDate.valueOf()
                     };
                     $.ajax({
                         url: "${context}/AssignmentAjaxController",
@@ -389,8 +406,8 @@
                         success: function (data) {
                             if (data.status === 0) {
                                 showMessage("Success!", data.message, "info");
-                                if ($('#editModal').length) {
-                                    $('#editModal').modal('hide');
+                                if ($('#editAssignment').length) {
+                                    $('#editAssignment').modal('hide');
                                 }
                             }
                             if (data.status === 1) {
@@ -430,6 +447,41 @@
                         showMessage("Message", "An error occurred", "danger");
                     }
                 });
+            });
+
+            $(document).on('click', '#beginupload', function (e) {
+                e.preventDefault();
+                var assignmentId = $(this).attr('assignment_id');
+                    var fileupload = $('#fileupload')[0].files[0];
+                    var formdata = new FormData();                   
+                    formdata.append('assignmentid', assignmentId);
+                    formdata.append('file',fileupload);
+                    $.ajax({
+                        url: "${context}/AjaxUpload",
+                        type: 'POST',
+                        enctype: 'multipart/form-data',
+                        data: formdata,
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.status === 0) {
+                                showMessage("Success!", data.message, "info");
+                                if ($('#modalupload').length) {
+                                    $('#modalupload').modal('hide');
+                                }
+                            }
+                            if (data.status === 1) {
+                                showMessage("Error!", data.message, "warning");
+                            }
+                        },
+                        error: function (jqXHR, status, error) {
+                            showMessage("Message", "An error occurred", "danger");
+                            console.log('Error from ajax');
+                            console.log(status);
+                            console.log(jqXHR.responseText);
+                        }
+                    });
             });
         </script>
     </body>

@@ -153,7 +153,8 @@ public class StudentController extends HttpServlet {
             finder.setStudentId(Integer.parseInt(id));
         }
         if (batch != null && !batch.equals("0") && !batch.equals("")) {
-            finder.setBatch(batch);
+            Batch b = new BatchFacade().findBatch(Integer.parseInt(batch));
+            finder.setBatch(b);
         }
         request.getSession().setAttribute("stuFinder", finder);
 
