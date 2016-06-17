@@ -211,7 +211,12 @@
                                                 <td>${assignment.batch.batchName}</td>
                                                 <td><fmt:formatDate value="${assignment.startTime}" pattern="dd-MM-yyyy HH:mm:ss" /></td>
                                                 <td><fmt:formatDate value="${assignment.endTime}" pattern="dd-MM-yyyy HH:mm:ss" /></td>
-                                                <td>${assignment.url}</td>
+                                                <c:if test="${not empty assignment.url}">
+                                                    <td><a href="ServletDownload?url=${assignment.url}" class="btn btn-info btn-sm">Download</a></td>
+                                                </c:if>
+                                                <c:if test="${empty assignment.url}">
+                                                    <td></td>
+                                                </c:if>
                                                 <td>${assignment.status eq 1 ? "<font color='green'>active":"<font color='red'>disable"}</td>
                                                 <td style="white-space: nowrap">
                                                     <button class="btn btn-primary btn-sm" assignment_id="${assignment.assignmentId}" data-toggle="modal" target="edit" data-target="#editAssignment">Edit</button>

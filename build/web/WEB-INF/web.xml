@@ -51,6 +51,10 @@
         <servlet-name>AssignmentAjaxController</servlet-name>
         <servlet-class>com.apt.ajax.controller.AssignmentAjaxController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletDownload</servlet-name>
+        <servlet-class>com.apt.ajax.controller.ServletDownload</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>jsp</servlet-name>
         <url-pattern>*.jsp</url-pattern>
@@ -131,6 +135,10 @@
     <servlet-mapping>
         <servlet-name>AssignmentAjaxController</servlet-name>
         <url-pattern>/AssignmentAjaxController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletDownload</servlet-name>
+        <url-pattern>/ServletDownload</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
