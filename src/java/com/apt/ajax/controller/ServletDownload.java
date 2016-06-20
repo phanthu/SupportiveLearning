@@ -38,20 +38,28 @@ public class ServletDownload extends HttpServlet {
             String url = request.getParameter("url");
             String filePath = request.getServletContext().getRealPath(File.separator) + "upload" +File.separator+url;
             File downloadFile = new File(filePath);
+            Long length = downloadFile.length();
             OutputStream outputStream;
             try (FileInputStream inputStream = new FileInputStream(downloadFile)) {
+                response.reset();
+                response.setBufferSize(4096);
+                String contentType=getServletContext().getMimeType(downloadFile.getName());               
+                if(contentType==null){
+                    response.setContentType("application/octet-stream");
+                }
+                response.setContentType(contentType);
                 response.setContentLength((int)downloadFile.length());
                 String headerKey = "Content-Disposition";
                 String headerValue=String.format(("attachment; filename=\"%s\""), downloadFile.getName());
                 response.setHeader(headerKey, headerValue);
                 outputStream = response.getOutputStream();
-                byte[] buffer = new byte[1024];
-                int byteRead=0;
-                while((byteRead= inputStream.read(buffer))!=-1){
+                byte[] buffer = new byte[4096];
+                int byteRead;
+                while((byteRead= inputStream.read(buffer))>0){
                     outputStream.write(buffer, 0, byteRead);
                 }
             }
-            outputStream.close();
+            outputStream.flush();
         }
     }
 
